@@ -8,6 +8,8 @@ install.packages("gridExtra")
 install.packages("caret")
 install.packages(c("tidyverse", "tidytext", "textdata"))
 
+
+library(ggplot2)
 library(googlesheets4)
 library(dplyr)
 library(MASS)
