@@ -77,3 +77,41 @@ This project involves analyzing customer feedback on wireless speakers to unders
 
 - **Cluster Visualization**:
   Visualized customer segments based on the importance of sound and battery. Saved as `customer_segmentation_plot.png`.
+
+## 7. Feedback Sentiment Analysis
+
+- **Feedback Processing**: 
+  Converted `sound_quality_feedback` from a list column to a character vector and created a dataframe for analysis.
+
+- **Sentiment Analysis**: 
+  Tokenized feedback words, calculated sentiment scores using the Bing lexicon, and summarized the sentiment.
+
+- **Sentiment Distribution Plot**: 
+  Created a histogram to visualize the distribution of sentiment scores. Saved as `feedback_sentiment_distribution.png`.
+
+## 8. Amount Spent Analysis
+
+- **Amount Spent Frequency**: 
+  Converted `amount_spent` to a factor with ordered levels and plotted its frequency distribution. Saved as `amount_spent_distribution.png`.
+
+- **Sentiment vs. Spending Plot**: 
+  Calculated and plotted the average sentiment score for each spending category.
+
+## 9. Keyword Analysis for Improvement Suggestions
+
+- **Text Data Cleaning**: 
+  Cleaned and tokenized `improve_speaker` text data, categorized keywords, and summarized counts by category.
+
+- **Keyword Categories Plot**: 
+  Created a bar plot to visualize the distribution of keywords across improvement categories. Saved as `improvement_keyword_themes.png`.
+
+- **Word Cloud for Sound Quality**: 
+  Generated a word cloud for keywords related to "Sound Quality" to visualize frequent terms. Saved as `improvements_wordcloud.png`.
+
+## 10. Purchase Factors Analysis
+
+- **Standardizing Ratings**: 
+  Applied a function to standardize ratings across various purchase factors to ensure consistency.
+
+- **Purchase Factors Boxplot**: 
+  Created boxplots to show the distribution of different purchase factors based on their median importance rating. Saved as `purchase_factors_plot.png`.
