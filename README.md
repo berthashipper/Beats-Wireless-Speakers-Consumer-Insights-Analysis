@@ -1,3 +1,5 @@
+# Consumer Insights Data Analysis for Beats By Dr. Dre
+
 
 # Installation
 - Clone the repository
@@ -10,8 +12,8 @@
   - see setup.R
 
 
-# Project Title:
-Consumer Insights Data Analysis for Beats By Dr. Dre
+
+
 
 # Key Objectives:
 **Data Exploration: Investigate the structure and patterns within the consumer insights dataset, focusing on key demographics such as gender, income, and age.
