@@ -20,7 +20,7 @@ ggsave("age_distribution_plot.png",
        dpi = 300, 
        bg = "white")
 
-
+#################################
 
 # Define the desired order of levels
 levels(data_clean$usage_freq)
@@ -46,7 +46,7 @@ ggsave("usage_freq_plot.png",
        dpi = 300, 
        bg = "white")
 
-
+#################################
 
 # Define the desired order of levels
 levels(data_clean$income)
@@ -72,7 +72,7 @@ ggsave("income_plot.png",
        dpi = 300, 
        bg = "white")
 
-
+#################################
 
 # Create summarized dataset for better visualization by age
 satisfaction_summary_age <- data_clean %>%
@@ -97,4 +97,41 @@ ggsave("satisfaction_plot_age_enhanced.png",
        width = 8, 
        height = 6, 
        dpi = 300, 
-       bg = "white")  # Background color
+       bg = "white")
+
+#################################
+
+# Define the levels of interest
+levels_of_interest <- c("Listening to music", 
+                        "Watching movies/TV shows", 
+                        "Gaming", 
+                        "Podcasts/Audiobooks", 
+                        "Video/audio calls (work/personal)", 
+                        "Work stuff (e.g., webinars, online meetings)")
+
+# Split multiple activities into separate rows and calculate proportions
+expanded_data <- data_clean %>%
+  separate_rows(speaker_usage, sep = ", ") %>%
+  filter(speaker_usage %in% levels_of_interest) %>%
+  count(speaker_usage) %>%
+  mutate(proportion = n / sum(n))
+
+# Plot the distribution by proportion
+usage_distributions <- ggplot(expanded_data, aes(x = reorder(speaker_usage, proportion), y = proportion, fill = speaker_usage)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +  # Flip coordinates for better readability
+  labs(title = "Distribution of Speaker Usage Activities",
+       x = "Speaker Usage",
+       y = "Proportion") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"),
+        plot.title = element_text(face = "bold", hjust = 0.5))
+
+# Save the plot
+ggsave("usage_distributions.png", 
+       plot = usage_distributions, 
+       width = 10, 
+       height = 6, 
+       dpi = 300, 
+       bg = "white")
