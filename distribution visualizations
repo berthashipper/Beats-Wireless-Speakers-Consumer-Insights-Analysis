@@ -1,0 +1,73 @@
+# Define the correct order for the age ranges
+age_levels <- c("Under 18", "18-24", "25-34", "35-44", "45-54", "55-64", "65+")
+
+# Convert age to an ordered factor
+data_clean$age <- factor(data_clean$age, levels = age_levels, ordered = TRUE)
+
+# Create a distribution plot for age
+age_distribution_plot <- ggplot(data_clean, aes(x = age)) +
+  geom_bar(fill = "blue", color = "white") +
+  theme_minimal() +
+  labs(title = "Age Distribution of Customers",
+       x = "Age Range",
+       y = "Frequency")
+
+# Save the plot
+ggsave("age_distribution_plot.png", 
+       plot = age_distribution_plot, 
+       width = 8, 
+       height = 6, 
+       dpi = 300, 
+       bg = "white")
+
+
+
+# Define the desired order of levels
+levels(data_clean$usage_freq)
+desired_order <- c("Daily", "Several times a week", "Once a week", "1-3 times a month", "Rarely (fewer than once a month)")
+
+# Set the factor levels in the specified order
+data_clean$usage_freq <- factor(data_clean$usage_freq, levels = desired_order)
+
+# Create bar plot for usage frequency
+usage_freq_plot <- ggplot(data_clean, aes(x = usage_freq)) +
+  geom_bar(fill = "lightgreen", color = "white") +
+  theme_minimal() +
+  labs(title = "Speaker Usage Frequency of Customers",
+       x = "Usage Frequency",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels
+
+# Save the plot
+ggsave("usage_freq_plot.png", 
+       plot = usage_freq_plot, 
+       width = 6, 
+       height = 8, 
+       dpi = 300, 
+       bg = "white")
+
+
+
+# Define the desired order of levels
+levels(data_clean$income)
+desired_order <- c("Less than $25,000", "$25,000-$50,000", "$50,000-$75,000", "$75,000-$100,000", "More than $100,000", "Prefer not to say")
+
+# Set the factor levels for income in the specified order
+data_clean$income <- factor(data_clean$income, levels = desired_order)
+
+# Create bar plot for income distribution
+income_plot <- ggplot(data_clean, aes(x = income)) +
+  geom_bar(fill = "goldenrod", color = "white") +
+  theme_minimal() +
+  labs(title = "Income Distribution of Customers",
+       x = "Income Range",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Save the plot
+ggsave("income_plot.png", 
+       plot = income_plot, 
+       width = 6, 
+       height = 8, 
+       dpi = 300, 
+       bg = "white")
