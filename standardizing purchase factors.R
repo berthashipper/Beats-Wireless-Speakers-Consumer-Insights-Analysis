@@ -33,7 +33,6 @@ data_clean <- data_clean %>%
 str(data_clean)
 
 
-
 # Prepare the purchase factors data
 purchase_factors <- data_clean %>%
   select(purchase_recommendation, purchase_reviews, purchase_expert, 
