@@ -74,4 +74,3 @@ customer_segment_plot <- ggplot(data_clean, aes(x = importance_sound, y = import
 
 # Save the plot
 ggsave("customer_segmentation_plot.png", plot = customer_segment_plot, width = 8, height = 6, dpi = 300)
-![Customer Segmentation Plot](customer_segmentation_plot.png)
