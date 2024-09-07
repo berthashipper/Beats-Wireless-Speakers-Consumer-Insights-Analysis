@@ -19,59 +19,61 @@
 This project involves analyzing customer feedback on wireless speakers to understand usage patterns, preferences, and areas for improvement. The analysis includes data cleaning, exploratory data analysis (EDA), and visualization of various aspects related to speaker usage and customer satisfaction. Additionally, I analyze consumer feedback data to gain insights into customer preferences and improve product features, performing clustering to segment customers, sentiment analysis to understand feedback, and visualize various aspects of the data to identify trends.
 
 
-## Visualizations
+# Data Cleaning and Analysis
 
-### Elbow Method for K-means Clustering
-- **Visualization Type:** Line plot with points
-- **Purpose:** Determine the optimal number of clusters by plotting the Total Within-Cluster Sum of Squares (WSS) against the number of clusters.
+## 1. Age Data Processing
 
-### Customer Segmentation Clustering
-- **Visualization Type:** Scatter plot
-- **Purpose:** Visualize clusters in the dataset based on customer attributes like importance of sound and battery. Colors represent different clusters.
+- **Ordered Factor Conversion**:
+  Converted the `age` column to an ordered factor with defined levels.
 
-### Sentiment Scores Distribution
-- **Visualization Type:** Histogram
-- **Purpose:** Show the distribution of sentiment scores derived from customer feedback.
+- **Age Distribution Plot**:
+  Created a bar plot to visualize age distribution. Saved as `age_distribution_plot.png`.
 
-### Frequency of Amount Spent
-- **Visualization Type:** Bar plot
-- **Purpose:** Visualize the frequency distribution of various spending categories.
+## 2. Usage Frequency Data Processing
 
-### Keyword Categories for Improvement
-- **Visualization Type:** Bar plot
-- **Purpose:** Display the distribution of categorized keywords related to areas of improvement, showing total counts by category.
+- **Ordered Factor Conversion**:
+  Set the levels for `usage_freq` and converted it to a factor.
 
-### Word Cloud for Improvement Keywords
-- **Visualization Type:** Word cloud
-- **Purpose:** Highlight the most frequent words related to improvements mentioned by customers, with a focus on sound quality.
+- **Usage Frequency Plot**:
+  Visualized speaker usage frequency with a bar plot. Saved as `usage_freq_plot.png`.
 
-### Distribution of Purchase Factors
-- **Visualization Type:** Boxplot
-- **Purpose:** Visualize the distribution of various purchase factors like peer recommendations, customer reviews, and expert reviews. Boxplots show the range and variability of importance ratings.
+## 3. Income Data Processing
 
-## Analyses
+- **Ordered Factor Conversion**:
+  Defined and converted the `income` column to a factor with specified levels.
 
-### K-means Clustering Analysis
-- **Steps:**
-  1. Data scaling
-  2. Determination of the optimal number of clusters using the Elbow Method
-  3. Execution of K-means clustering
-  4. Analysis of cluster characteristics
-  5. Visualization of clusters
+- **Income Distribution Plot**:
+  Generated a bar plot for income distribution. Saved as `income_plot.png`.
 
-### Sentiment Analysis
-- **Steps:**
-  1. Preparation and cleaning of feedback text
-  2. Tokenization and sentiment score calculation
-  3. Visualization of sentiment score distribution
+## 4. Satisfaction by Age
 
-### Frequency and Keyword Analysis
-- **Steps:**
-  1. Analysis of spending amounts
-  2. Categorization of keywords and distribution analysis
-  3. Creation of a word cloud to visualize frequent keywords
+- **Data Summarization**:
+  Summarized satisfaction ratings by age group and calculated proportions.
 
-### Purchase Factors Analysis
-- **Steps:**
-  1. Standardization of ratings for various purchase factors
-  2. Visualization of purchase factor distributions through boxplots
+- **Enhanced Satisfaction Plot**:
+  Visualized satisfaction ratings by age group with proportions. Saved as `satisfaction_plot_age_enhanced.png`.
+
+## 5. Speaker Usage Activities
+
+- **Data Expansion and Proportion Calculation**:
+  Expanded multiple speaker usage activities into separate rows and calculated proportions.
+
+- **Usage Distribution Plot**:
+  Created a plot for the distribution of speaker usage activities. Saved as `usage_distributions.png`.
+
+## 6. Customer Segmentation
+
+- **Data Preparation**:
+  Selected relevant columns, converted categorical variables to numeric, and scaled the data.
+
+- **Elbow Method**:
+  Used the Elbow Method to determine the optimal number of clusters. Plotted results.
+
+- **K-means Clustering**:
+  Performed k-means clustering and added cluster assignments to the dataset.
+
+- **Cluster Analysis**:
+  Analyzed clusters by calculating mean values for attributes and assigned meaningful names.
+
+- **Cluster Visualization**:
+  Visualized customer segments based on the importance of sound and battery. Saved as `customer_segmentation_plot.png`.
