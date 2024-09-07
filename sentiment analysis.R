@@ -57,7 +57,7 @@ ggsave("feedback_sentiment_distribution.png",
        dpi = 300, 
        bg = "white")
 
-
+#################################
 
 # Define the order of categories from lowest to highest
 amount_spent_levels <- c("Less than $50", "$50 to $100", "$100 to $200", "$200 to $300", "- More than $300")
@@ -96,7 +96,7 @@ ggsave("amount_spent_distribution.png",
        dpi = 300, 
        bg = "white")
 
-
+#################################
 
 feedback_df <- feedback_df %>%
   mutate(id = row_number())
@@ -137,3 +137,101 @@ sentiment_vs_spending_plot <- ggplot(average_sentiment_by_amount, aes(x = amount
         axis.title.y = element_text(face = "bold"),
         plot.title = element_text(face = "bold", hjust = 0.5))
 sentiment_vs_spending_plot
+
+#################################
+
+# Clean the improve_speaker data
+cleaned_improve_speaker <- data_clean %>%
+  pull(improve_speaker) %>%
+  tolower() %>%
+  str_replace_all("[[:punct:]]", "") %>%
+  str_squish()  # Remove extra white spaces
+
+# Create a tibble for text analysis
+text_data <- tibble(improve_speaker = cleaned_improve_speaker)
+
+# Tokenize the text and count occurrences
+word_counts <- text_data %>%
+  unnest_tokens(word, improve_speaker) %>%
+  count(word, sort = TRUE) %>%
+  filter(!word %in% stop_words$word)  # Remove common stop words
+
+filtered_word_counts <- word_counts %>%
+  filter(word != "na")
+
+# Define keyword categories with all relevant terms
+# Create the keyword_categories tibble
+keyword_categories <- tibble(
+  word = c("battery", "sound", "life", "quality", "louder", "volume", "bass", "audio", "clarity", "crisp",
+           "loud", "loudness", "noise", "clearer", "enhanced", "improve", "improved", "better", "perfect",
+           "charging", "charge", "lasted", "lasting", "durable", "design", "build", "size", "compact",
+           "resistant", "handle", "bulky", "waterproof", "heavy", "portability",
+           "connectivity", "wireless", "bluetooth", "connection", "features", "device", "connecting",
+           "compatibility", "systems", "control", "options", "easy", "portable", "travel", "multi-use",
+           "settings", "comfortable", "easier", "happy", "experience",
+           "improvement", "increased", "increase", "multiple", "brand", "color", "aesthetic", "stylish",
+           "price", "cheaper", "affordable", "expensive", "worth"),
+  category = c(rep("Sound Quality", 19),
+               rep("Battery and Charging", 4),
+               rep("Durability and Design", 11),
+               rep("Connectivity and Features", 15),
+               rep("User Experience", 14),
+               rep("Price", 4))
+)
+
+# Display the tibble
+print(keyword_categories)
+
+# Join the keyword categories with filtered_word_counts
+categorized_word_counts <- filtered_word_counts %>%
+  left_join(keyword_categories, by = "word") %>%
+  group_by(category) %>%
+  summarise(count = sum(n, na.rm = TRUE)) %>%
+  arrange(desc(count))
+
+# Remove rows where category is NA
+categorized_word_counts_clean <- categorized_word_counts %>%
+  filter(!is.na(category))
+
+# Display the cleaned data
+print(categorized_word_counts_clean)
+
+# Plot the distribution of categories
+improvement_keyword_themes <- ggplot(categorized_word_counts_clean, aes(x = reorder(category, count), y = count, fill = category)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +  # Flip coordinates for better readability
+  labs(title = "Distribution of Keywords of Categories for Improvement",
+       x = "Category",
+       y = "Total Count",
+       fill = "Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"),
+        plot.title = element_text(face = "bold", hjust = 0.5))
+
+# Save the plot
+ggsave("improvement_keyword_themes.png", 
+       plot = improvement_keyword_themes, 
+       width = 8, 
+       height = 6, 
+       dpi = 300, 
+       bg = "white")
+
+#################################
+
+# Filter words for a specific category, for example, "Sound Quality"
+sound_quality_words <- filtered_word_counts %>%
+  filter(word %in% keyword_categories$word[keyword_categories$category == "Sound Quality"]) %>%
+  left_join(keyword_categories, by = "word") %>%
+  filter(category == "Sound Quality")
+
+# Save the word cloud as an image
+png("improvements_wordcloud.png", width = 8 * 300, height = 8 * 300, res = 300)  # Set width, height, and resolution
+wordcloud(words = sound_quality_words$word, freq = sound_quality_words$n, 
+          scale = c(5, 0.3),  # Adjust scale for better differentiation
+          min.freq = 2,       # Set minimum frequency to 2 for more significant words
+          max.words = 100,    # Limit the number of words to include
+          colors = brewer.pal(9, "Paired"),  # Use a more diverse color palette
+          random.order = FALSE, 
+          rot.per = 0.4)      # Adjust rotation percentage
+dev.off()  # Close the graphics device
