@@ -6,6 +6,7 @@ install.packages("reshape2")
 install.packages("janitor")
 install.packages("gridExtra")
 install.packages("caret")
+install.packages(c("tidyverse", "tidytext", "textdata"))
 
 library(googlesheets4)
 library(dplyr)
@@ -17,7 +18,8 @@ library(gridExtra)
 library(caret)
 library(cluster)
 library(lattice)
+library(tidyverse)
 library(tidytext)
-library(textdata) # For sentiment lexicons
+library(textdata)
 
 gs4_auth()
