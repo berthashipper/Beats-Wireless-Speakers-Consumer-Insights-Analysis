@@ -5,6 +5,7 @@
 This project involves analyzing customer feedback on wireless speakers to understand usage patterns, preferences, and areas for improvement. The analysis includes data cleaning, exploratory data analysis (EDA), and visualization of various aspects related to speaker usage and customer satisfaction. Additionally, I analyze consumer feedback data to gain insights into customer preferences and improve product features, performing clustering to segment customers, sentiment analysis to understand feedback, and visualize various aspects of the data to identify trends.
 
 
+
 # Data Cleaning, Analysis, and Visualization
 
 ## 1. Age Data Processing
@@ -101,6 +102,7 @@ This project involves analyzing customer feedback on wireless speakers to unders
 
 - **Purchase Factors Boxplot**: 
   Created boxplots to show the distribution of different purchase factors based on their median importance rating. Saved as `purchase_factors_plot.png`.
+
 
 
 # Installation
