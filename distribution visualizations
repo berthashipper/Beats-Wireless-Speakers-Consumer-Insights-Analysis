@@ -71,3 +71,30 @@ ggsave("income_plot.png",
        height = 8, 
        dpi = 300, 
        bg = "white")
+
+
+
+# Create summarized dataset for better visualization by age
+satisfaction_summary_age <- data_clean %>%
+  group_by(satisfaction, age) %>%
+  summarize(count = n(), .groups = 'drop') %>%
+  group_by(age) %>%
+  mutate(proportion = count / sum(count))  # Calculate proportions
+
+# Create enhanced bar plot with proportions
+satisfaction_plot_age_enhanced <- ggplot(satisfaction_summary_age, aes(x = factor(satisfaction), y = proportion, fill = age)) +
+  geom_bar(stat = "identity", position = position_dodge()) +  # Use position_dodge for side-by-side bars
+  theme_minimal() +
+  labs(title = "Customer Satisfaction Ratings by Age Group (Proportional)",
+       x = "Satisfaction Rating",
+       y = "Proportion") +
+  scale_fill_brewer(palette = "Set1", name = "Age Group") +  # Use a color palette for better differentiation
+  theme(axis.text.x = element_text(hjust = 0.5))  # Center the x-axis labels without angle adjustment
+
+# Save the plot
+ggsave("satisfaction_plot_age_enhanced.png", 
+       plot = satisfaction_plot_age_enhanced, 
+       width = 8, 
+       height = 6, 
+       dpi = 300, 
+       bg = "white")  # Background color
