@@ -17,5 +17,7 @@ library(gridExtra)
 library(caret)
 library(cluster)
 library(lattice)
+library(tidytext)
+library(textdata) # For sentiment lexicons
 
 gs4_auth()
