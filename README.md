@@ -8,7 +8,7 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 - **Consumer Feedback Analysis:** Extract insights from feedback to identify key themes, improve product features, and better understand customer preferences.
 
 
-## Detailed Analysis:
+# Detailed Analysis:
 
 ### Age Data Processing
 - Converted age data into an ordered factor to represent defined levels.
