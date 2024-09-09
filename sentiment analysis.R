@@ -60,23 +60,26 @@ ggsave("feedback_sentiment_distribution.png",
 #################################
 
 # Define the order of categories from lowest to highest
-amount_spent_levels <- c("Less than $50", "$50 to $100", "$100 to $200", "$200 to $300", "- More than $300")
-amount_spent_labels <- c("Less than $50", "$50 to $100", "$100 to $200", "$200 to $300", "More than 300")
+amount_spent_levels <- c("Less than $50", "$50 to $100", "$100 to $200", "$200 to $300", "More than $300")
+amount_spent_labels <- c("Less than $50", "$50 to $100", "$100 to $200", "$200 to $300", "More than $300")
 
 # Convert amount_spent to a factor with the specified levels and filter out NAs
 amount_spent_freq <- data_clean %>%
   filter(!is.na(amount_spent)) %>%  # Ensure NA values are excluded
+  mutate(amount_spent = factor(amount_spent, levels = amount_spent_levels)) %>%  # Convert to factor with specified levels
   count(amount_spent) %>%
-  mutate(amount_spent = factor(amount_spent, levels = amount_spent_levels)) %>%
-  arrange(amount_spent)  # Ensure bars are ordered according to factor levels
+  arrange(amount_spent) %>%  # Ensure bars are ordered according to factor levels
+  mutate(proportion = n / sum(n),  # Calculate proportions
+         percentage_label = sprintf("%.1f%%", proportion * 100))  # Format proportions as percentages
 
-# Exclude NA from the dataframe
+# Remove any rows where amount_spent is NA (shouldn't be necessary if filtering is correct)
 amount_spent_freq <- amount_spent_freq %>%
   filter(!is.na(amount_spent))
 
-# Plot frequency distribution with ordered categories
+# Plot frequency distribution with ordered categories and percentage labels
 amount_spent_distribution <- ggplot(amount_spent_freq, aes(x = amount_spent, y = n, fill = amount_spent)) +
   geom_bar(stat = "identity") +
+  geom_text(aes(label = percentage_label), vjust = -0.5, size = 3.5) +  # Add percentage labels above bars
   scale_x_discrete(labels = amount_spent_labels) +  # Update x-axis labels
   labs(title = "Distribution of Amount Spent",
        x = "Amount Spent",
@@ -87,6 +90,7 @@ amount_spent_distribution <- ggplot(amount_spent_freq, aes(x = amount_spent, y =
         axis.title.y = element_text(face = "bold"),
         plot.title = element_text(face = "bold", hjust = 0.5),
         plot.caption = element_text(hjust = 0.5))
+amount_spent_distribution
 
 # Save the plot
 ggsave("amount_spent_distribution.png", 
