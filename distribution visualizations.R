@@ -76,14 +76,23 @@ desired_order <- c("Less than $25,000", "$25,000-$50,000", "$50,000-$75,000", "$
 # Set the factor levels for income in the specified order
 data_clean$income <- factor(data_clean$income, levels = desired_order)
 
-# Create bar plot for income distribution
-income_plot <- ggplot(data_clean, aes(x = income)) +
-  geom_bar(fill = "goldenrod", color = "white") +
+# Calculate the count and percentage for each income level
+income_counts <- data_clean %>%
+  group_by(income) %>%
+  summarise(count = n()) %>%
+  mutate(percentage = count / sum(count) * 100) # Calculate percentages
+
+# Create bar plot for income distribution with percentages
+income_plot <- ggplot(income_counts, aes(x = income, y = count)) +
+  geom_bar(stat = "identity", fill = "goldenrod", color = "white") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            vjust = -0.5, size = 3.5) + # Add percentages as labels
   theme_minimal() +
   labs(title = "Income Distribution of Customers",
        x = "Income Range",
        y = "Count") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels
+income_plot
 
 # Save the plot
 ggsave("income_plot.png", 
