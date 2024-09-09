@@ -29,14 +29,23 @@ desired_order <- c("Daily", "Several times a week", "Once a week", "1-3 times a 
 # Set the factor levels in the specified order
 data_clean$usage_freq <- factor(data_clean$usage_freq, levels = desired_order)
 
+# Calculate counts and percentages for usage frequency
+usage_freq_counts <- data_clean %>%
+  group_by(usage_freq) %>%
+  summarize(count = n()) %>%
+  mutate(percentage = count / sum(count) * 100)
+
 # Create bar plot for usage frequency
-usage_freq_plot <- ggplot(data_clean, aes(x = usage_freq)) +
-  geom_bar(fill = "lightgreen", color = "white") +
+usage_freq_plot <- ggplot(usage_freq_counts, aes(x = usage_freq, y = count)) +
+  geom_bar(stat = "identity", fill = "lightgreen", color = "white") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            vjust = -0.5, size = 3, color = "black") + # Add percentage labels
   theme_minimal() +
   labs(title = "Speaker Usage Frequency of Customers",
        x = "Usage Frequency",
        y = "Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels
+usage_freq_plot
 
 # Save the plot
 ggsave("usage_freq_plot.png", 
