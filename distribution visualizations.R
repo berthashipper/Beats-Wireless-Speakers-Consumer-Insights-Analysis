@@ -144,19 +144,23 @@ expanded_data <- data_clean %>%
   separate_rows(speaker_usage, sep = ", ") %>%
   filter(speaker_usage %in% levels_of_interest) %>%
   count(speaker_usage) %>%
-  mutate(proportion = n / sum(n))
+  mutate(proportion = n / sum(n),
+         percentage_label = sprintf("%.1f%%", proportion * 100))  # Format the proportions as percentages
 
-# Plot the distribution by proportion
+# Plot the distribution by proportion with percentage labels
 usage_distributions <- ggplot(expanded_data, aes(x = reorder(speaker_usage, proportion), y = proportion, fill = speaker_usage)) +
   geom_bar(stat = "identity") +
+  geom_text(aes(label = percentage_label), hjust = -0.1, vjust = 0.5, size = 3.5) +  # Adjust vertical position
   coord_flip() +  # Flip coordinates for better readability
+  expand_limits(y = max(expanded_data$proportion) * 1.07) +  # Expand y-axis limits to fit labels
   labs(title = "Distribution of Speaker Usage Activities",
-       x = "Speaker Usage",
-       y = "Proportion") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+       x = "Proportion",
+       y = "Speaker Usage") +
+  theme(axis.text.y = element_text(size = 10),  # Adjust size of y-axis text for readability
         axis.title.x = element_text(face = "bold"),
         axis.title.y = element_text(face = "bold"),
         plot.title = element_text(face = "bold", hjust = 0.5))
+usage_distributions
 
 # Save the plot
 ggsave("usage_distributions.png", 
