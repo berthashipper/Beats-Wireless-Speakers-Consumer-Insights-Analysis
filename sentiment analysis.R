@@ -2,9 +2,12 @@
 data_clean <- data_clean %>%
   mutate(sound_quality_feedback = map_chr(sound_quality_feedback, ~paste(.x, collapse = " ")))
 
+data_clean <- data_clean %>%
+  mutate(id = row_number())
+
 # Create data frame
 feedback_df <- data_clean %>%
-  select(sound_quality_feedback) %>%
+  dplyr::select(sound_quality_feedback) %>%
   mutate(id = row_number())
 
 # Tokenize words from the feedback
@@ -42,12 +45,27 @@ print(sentiment_summary)
 #more positive and others less positive or even negative.
 
 
-# Visualize the distribution of sentiment scores
-feedback_sentiment_distribution <- ggplot(sentiment_scores, aes(x = sentiment_score)) +
-  geom_histogram(binwidth = 1) +
+# Calculate the distribution and proportions for histogram
+sentiment_distribution <- sentiment_scores %>%
+  mutate(sentiment_score_bin = cut(sentiment_score, breaks = seq(-10, 10, by = 1))) %>%
+  count(sentiment_score_bin) %>%
+  mutate(proportion = n / sum(n),
+         percentage_label = sprintf("%.1f%%", proportion * 100))
+
+# Plot the distribution with percentage labels
+feedback_sentiment_distribution <- ggplot(sentiment_distribution, aes(x = sentiment_score_bin, y = n, fill = sentiment_score_bin)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = percentage_label), vjust = -0.5, size = 3.5) +  # Add percentage labels above bars
   labs(title = "Distribution of Sentiment Scores",
-       x = "Sentiment Score",
-       y = "Frequency")
+       x = "Sentiment Score Bin",
+       y = "Frequency",
+       fill = "Bins (neg to pos)") +
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5),  # Untilt x-axis labels
+        axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"),
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.caption = element_text(hjust = 0.5))
+feedback_sentiment_distribution
 
 # Save the plot
 ggsave("feedback_sentiment_distribution.png", 
