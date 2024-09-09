@@ -219,23 +219,34 @@ categorized_word_counts_clean <- categorized_word_counts %>%
 # Display the cleaned data
 print(categorized_word_counts_clean)
 
-# Plot the distribution of categories
+# Calculate proportions and add percentage labels
+categorized_word_counts_clean <- categorized_word_counts_clean %>%
+  mutate(total_count = sum(count),
+         proportion = count / total_count,
+         percentage_label = sprintf("%.1f%%", proportion * 100))
+
+# Plot the distribution of categories with percentage labels
 improvement_keyword_themes <- ggplot(categorized_word_counts_clean, aes(x = reorder(category, count), y = count, fill = category)) +
   geom_bar(stat = "identity") +
+  geom_text(aes(label = percentage_label), hjust = -0.1, size = 3.5) +  # Add percentage labels to the right of bars
   coord_flip() +  # Flip coordinates for better readability
-  labs(title = "Distribution of Keywords of Categories for Improvement",
-       x = "Category",
+  labs(title = "Distribution of Keywords by Category for Improvement",
+       x = "Feedback Category",
        y = "Total Count",
-       fill = "Category") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+       fill = NULL) +
+  scale_y_continuous(expand = expansion(mult = c(0.05, 0.1))) +  # Add more space on the right
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5),  # Untilt x-axis labels
         axis.title.x = element_text(face = "bold"),
         axis.title.y = element_text(face = "bold"),
-        plot.title = element_text(face = "bold", hjust = 0.5))
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        legend.position = "none")  # Remove the legend
+improvement_keyword_themes
+
 
 # Save the plot
 ggsave("improvement_keyword_themes.png", 
        plot = improvement_keyword_themes, 
-       width = 8, 
+       width = 9, 
        height = 6, 
        dpi = 300, 
        bg = "white")
