@@ -102,6 +102,7 @@ amount_spent_distribution <- ggplot(amount_spent_freq, aes(x = amount_spent, y =
   labs(title = "Distribution of Amount Spent",
        x = "Amount Spent",
        y = "Frequency",
+       fill = "Price Ranges",
        caption = "Number of occurrences for each spending category") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title.x = element_text(face = "bold"),
