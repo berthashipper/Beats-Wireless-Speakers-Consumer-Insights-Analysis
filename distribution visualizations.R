@@ -2,15 +2,27 @@
 age_levels <- c("Under 18", "18-24", "25-34", "35-44", "45-54", "55-64", "65+")
 
 # Convert age to an ordered factor
-data_clean$age <- factor(data_clean$age, levels = age_levels, ordered = TRUE)
+data_clean <- data_clean %>%
+  mutate(age = factor(age, levels = age_levels, ordered = TRUE)) %>%
+  drop_na(age) # Remove rows with NA in the age column
 
-# Create a distribution plot for age
-age_distribution_plot <- ggplot(data_clean, aes(x = age)) +
-  geom_bar(fill = "blue", color = "white") +
+# Calculate counts and percentages for each age group
+age_distribution_counts <- data_clean %>%
+  group_by(age) %>%
+  summarize(count = n()) %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Create the age distribution plot with percentage labels
+age_distribution_plot <- ggplot(age_distribution_counts, aes(x = age, y = count)) +
+  geom_bar(stat = "identity", fill = "blue", color = "white") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            vjust = -0.5, size = 3, color = "black") + # Add percentage labels
   theme_minimal() +
   labs(title = "Age Distribution of Customers",
        x = "Age Range",
-       y = "Frequency")
+       y = "Frequency") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels
+age_distribution_plot
 
 # Save the plot
 ggsave("age_distribution_plot.png", 
