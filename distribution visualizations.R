@@ -20,8 +20,8 @@ age_distribution_plot <- ggplot(age_distribution_counts, aes(x = age, y = count)
   theme_minimal() +
   labs(title = "Age Distribution of Customers",
        x = "Age Range",
-       y = "Frequency") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels
+       y = "Frequency") #+
+  #theme(axis.text.x = element_text(angle = 0, hjust = 0))  # Rotate labels
 age_distribution_plot
 
 # Save the plot
