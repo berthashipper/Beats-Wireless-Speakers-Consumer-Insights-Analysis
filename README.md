@@ -32,8 +32,8 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 
 ### Customer Segmentation
 - Prepared data by selecting relevant columns, converting categorical variables to numeric, and scaling the data.
-- Used the Elbow Method to determine optimal clustering and performed k-means clustering to segment customers.
-- Analyzed and visualized customer segments based on sound and battery importance (`customer_segmentation_plot.png`).
+- Used the Elbow Method to determine optimal clustering and performed k-means clustering to segment customers into the top aspects they valued.
+- Analyzed and visualized customer segments based on how they ranked sound and battery importance (`customer_segmentation__by_values_plot.png`).
 
 ### Feedback Sentiment Analysis
 - Processed and tokenized customer feedback on sound quality, applying the Bing lexicon to score sentiments.
