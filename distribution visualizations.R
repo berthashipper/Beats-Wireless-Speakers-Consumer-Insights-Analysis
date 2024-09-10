@@ -70,8 +70,7 @@ ggsave("usage_freq_plot.png",
 #################################
 
 # Define the desired order of levels
-levels(data_clean$income)
-desired_order <- c("Less than $25,000", "$25,000-$50,000", "$50,000-$75,000", "$75,000-$100,000", "More than $100,000", "Prefer not to say")
+desired_order <- c("Less than $25,000", "$25,000-$50,000", "$50,000-$75,000", "$75,000-$100,000", "More than $100,000")
 
 # Set the factor levels for income in the specified order
 data_clean$income <- factor(data_clean$income, levels = desired_order)
@@ -80,7 +79,11 @@ data_clean$income <- factor(data_clean$income, levels = desired_order)
 income_counts <- data_clean %>%
   group_by(income) %>%
   summarise(count = n()) %>%
-  mutate(percentage = count / sum(count) * 100) # Calculate percentages
+  mutate(percentage = count / sum(count) * 100) %>%  # Calculate percentages
+  filter(income != "Prefer not to say")  # Remove "Prefer not to say" category
+
+# Define custom x-axis labels
+custom_labels <- c("<$25K", "$25K-$50K", "$50K-$75K", "$75K-$100K", ">$100K")
 
 # Create bar plot for income distribution with percentages
 income_plot <- ggplot(income_counts, aes(x = income, y = count)) +
@@ -91,7 +94,8 @@ income_plot <- ggplot(income_counts, aes(x = income, y = count)) +
   labs(title = "Income Distribution of Customers",
        x = "Income Range",
        y = "Count") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate labels
+  scale_x_discrete(labels = custom_labels) +
+  theme()
 income_plot
 
 # Save the plot
