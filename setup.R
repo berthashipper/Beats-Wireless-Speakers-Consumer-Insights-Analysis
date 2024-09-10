@@ -30,5 +30,6 @@ library(stringr)
 library(wordcloud)
 library(RColorBrewer)
 library(ggtext)
+library(scales)
 
 gs4_auth()
