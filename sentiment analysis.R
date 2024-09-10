@@ -102,20 +102,18 @@ amount_spent_distribution <- ggplot(amount_spent_freq, aes(x = amount_spent, y =
   labs(title = "Distribution of Amount Spent",
        x = "Amount Spent",
        y = "Frequency",
-       fill = "Price Ranges",
-       caption = "Number of occurrences for each spending category") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        axis.title.x = element_text(face = "bold"),
+       fill = "Price Ranges") +
+  theme(axis.title.x = element_text(face = "bold"),
         axis.title.y = element_text(face = "bold"),
         plot.title = element_text(face = "bold", hjust = 0.5),
-        plot.caption = element_text(hjust = 0.5))
+        plot.caption = element_blank())  # Remove plot caption
 amount_spent_distribution
 
 # Save the plot
 ggsave("amount_spent_distribution.png", 
        plot = amount_spent_distribution, 
-       width = 6, 
-       height = 8, 
+       width = 8, 
+       height = 6, 
        dpi = 300, 
        bg = "white")
 
