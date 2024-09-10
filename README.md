@@ -12,15 +12,15 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 
 ### Age Data Processing
 - Converted age data into an ordered factor to represent defined levels.
-- Created a bar plot to visualize the distribution of ages (`age_distribution_plot.png`).
+- Created a bar plot to visualize the distribution of ages ([`age_distribution_plot.png`](age_distribution_plot.png)).
 
 ### Usage Frequency Analysis
 - Defined usage frequency levels and converted data into a factor for analysis.
-- Visualized the frequency of speaker usage with a bar plot (`usage_freq_plot.png`).
+- Visualized the frequency of speaker usage with a bar plot ([`usage_freq_plot.png`](usage_freq_plot.png)).
 
 ### Income Data Processing
 - Transformed the income data into an ordered factor with specified levels.
-- Generated a bar plot to display income distribution among users (`income_plot.png`).
+- Generated a bar plot to display income distribution among users ([`income_plot.png`](income_plot.png)).
 
 ### Feature Importance Analysis
 - Transformed the importance ratings of various speaker features into a long format for analysis.
@@ -30,33 +30,32 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 
 ### Satisfaction by Age Group
 - Summarized satisfaction ratings across age groups and calculated proportional data.
-- Enhanced visualization of satisfaction ratings segmented by age (`satisfaction_plot_age_enhanced.png`).
+- Enhanced visualization of satisfaction ratings segmented by age ([`satisfaction_plot_age_enhanced.png`](satisfaction_plot_age_enhanced.png)).
 
 ### Speaker Usage Activities
 - Expanded multi-use activities into separate data rows and calculated usage proportions.
-- Plotted the distribution of speaker usage activities (`usage_distributions.png`).
+- Plotted the distribution of speaker usage activities ([`usage_distributions.png`](usage_distributions.png)).
 
 ### Customer Segmentation
 - Prepared data by selecting relevant columns, converting categorical variables to numeric, and scaling the data.
 - Used the Elbow Method to determine optimal clustering and performed k-means clustering to segment customers into the top aspects they valued.
-- Analyzed and visualized customer segments based on how they ranked sound and battery importance (`customer_segmentation__by_values_plot.png`).
+- Analyzed and visualized customer segments based on how they ranked sound and battery importance ([`customer_segmentation__by_values_plot.png`](customer_segmentation__by_values_plot.png)).
 
 ### Feedback Sentiment Analysis
 - Processed and tokenized customer feedback on sound quality, applying the Bing lexicon to score sentiments.
-- Visualized sentiment distribution with a histogram (`feedback_sentiment_distribution.png`).
+- Visualized sentiment distribution with a histogram ([`feedback_sentiment_distribution.png`](feedback_sentiment_distribution.png)).
 
 ### Spending Analysis
-- Converted spending data into ordered factors and visualized frequency distributions (`amount_spent_distribution.png`).
+- Converted spending data into ordered factors and visualized frequency distributions ([`amount_spent_distribution.png`](amount_spent_distribution.png)).
 - Plotted sentiment scores against spending categories to explore spending influence on feedback.
 
 ### Improvement Suggestions Keyword Analysis
 - Cleaned and tokenized improvement suggestion data, categorizing keywords for analysis.
-- Visualized keyword distribution across improvement categories (`improvement_keyword_themes.png`) and created a word cloud to highlight frequent terms related to sound quality (`improvements_wordcloud.png`).
+- Visualized keyword distribution across improvement categories ([`improvement_keyword_themes.png`](improvement_keyword_themes.png)) and created a word cloud to highlight frequent terms related to sound quality ([`improvements_wordcloud.png`](improvements_wordcloud.png)).
 
 ### Purchase Factors Analysis
 - Standardized ratings across various purchase factors for consistency.
-- Created boxplots to showcase the distribution of ratings for different purchase factors (`purchase_factors_plot.png`).
-
+- Created boxplots to showcase the distribution of ratings for different purchase factors ([`purchase_factors_plot.png`](purchase_factors_plot.png)).
 
 
 # Installation
