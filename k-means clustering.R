@@ -2,7 +2,7 @@
 data_segment <- data_clean %>%
   dplyr::select(age, income, usage_freq, importance_sound, importance_battery, importance_design)
 
-# Convert categorical variables to numeric (if necessary)
+# Convert categorical variables to numeric
 data_segment$age <- as.numeric(factor(data_segment$age))
 data_segment$income <- as.numeric(factor(data_segment$income))
 data_segment$usage_freq <- as.numeric(factor(data_segment$usage_freq))
@@ -35,8 +35,6 @@ aggregate(data_clean[, c("importance_sound", "importance_battery", "importance_d
           FUN = mean)
 
 # Visualize the clusters
-library(ggplot2)
-
 ggplot(data_clean, aes(x = importance_sound, y = importance_battery, color = cluster)) +
   geom_point() +
   theme_minimal() +
@@ -59,18 +57,32 @@ data_clean$cluster_name <- case_when(
   data_clean$cluster == 3 ~ "LOOKS"
 )
 
-# Create the plot with meaningful cluster names
+# Create the plot with jitter to make trends visible
 customer_segment_plot <- ggplot(data_clean, aes(x = importance_sound, y = importance_battery, color = cluster_name)) +
-  geom_point(alpha = 0.7) +
+  geom_point(alpha = 0.6, size = 4, position = position_jitter(width = 0.6, height = 0.6)) +  # Increased jitter
   theme_minimal() +
   labs(title = "Customer Segmentation using K-means Clustering",
-       x = "Importance of Sound",
-       y = "Importance of Battery",
+       x = "Ranked Importance of Sound",
+       y = "Ranked Importance of Battery",
        color = "Customer Segment") +
-  scale_color_manual(values = c("SOUND QUALITY" = "blue", 
+  scale_color_manual(values = c("SOUND QUALITY" = "red", 
                                 "PERFORMANCE" = "green", 
-                                "LOOKS" = "orange")) +
-  theme(legend.position = "right")
+                                "LOOKS" = "blue")) +
+  scale_x_continuous(breaks = seq(1, 6, 1), 
+                     labels = c("1 (Low)", "2", "3", "4", "5", "6 (High)")) +
+  scale_y_continuous(breaks = seq(1, 6, 1), 
+                     labels = c("1 (Low)", "2", "3", "4", "5", "6 (High)")) +
+  theme(legend.position = "right",
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14, face = "bold"))
+
+customer_segment_plot
 
 # Save the plot
-ggsave("customer_segmentation_plot.png", plot = customer_segment_plot, width = 8, height = 6, dpi = 300)
+ggsave("customer_segmentation_plot.png", 
+       plot = customer_segment_plot, 
+       width = 8, 
+       height = 6, 
+       dpi = 300, 
+       bg = "white")
