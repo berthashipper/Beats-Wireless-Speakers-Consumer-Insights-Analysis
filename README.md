@@ -22,7 +22,7 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 - Transformed the income data into an ordered factor with specified levels.
 - Generated a bar plot to display income distribution among users (`income_plot.png`).
 
-## Feature Importance Analysis
+### Feature Importance Analysis
 - Transformed the importance ratings of various speaker features into a long format for analysis.
 - Summarized the data to calculate the proportion of each importance level for every feature.
 - Ordered the features based on the total proportion of high importance levels (importance ratings of 5 and 6) to identify which features are most valued by respondents.
