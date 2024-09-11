@@ -173,3 +173,56 @@ ggsave("usage_distributions.png",
        height = 6, 
        dpi = 300, 
        bg = "white")
+
+#################################
+
+# Process the brands_used column
+brands_data <- data_clean %>%
+  # Separate multiple brands into separate rows
+  separate_rows(brands_used, sep = ", ") %>%
+  # Trim any leading/trailing whitespace
+  mutate(brands_used = trimws(brands_used)) %>%
+  # Count the frequency of each brand
+  count(brands_used) %>%
+  # Arrange in descending order of count
+  arrange(desc(n))
+
+# Get the top 5 most frequent brands
+top_5_brands <- brands_data %>%
+  slice_head(n = 5) %>%
+  # Calculate percentages
+  mutate(percentage = (n / sum(n)) * 100)
+
+# Print the top 5 brands
+print(top_5_brands)
+
+# Create a bar plot of the top 5 most frequently mentioned brands with percentages
+brands_plot <- ggplot(top_5_brands, aes(x = reorder(brands_used, n), y = n, fill = brands_used)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = sprintf("%.1f%%", percentage)), 
+            hjust = -0.1,  # Move text slightly further right
+            size = 4, 
+            color = "black") +  # Ensure text is readable
+  coord_flip() +  # Flip coordinates to make brand names readable
+  expand_limits(y = max(expanded_data$n) * 0.72) +
+  labs(title = "Top 5 Most Frequently Mentioned Speaker Brands",
+       x = "Brand",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"),
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 10),
+        legend.position = "none", 
+        plot.title.position = "plot",  # Adjust title position
+        plot.margin = margin(10, 10, 10, 20))   # Adjust margins
+brands_plot
+
+# Save the plot
+ggsave("top_brands_plot.png", 
+       plot = brands_plot, 
+       width = 8, 
+       height = 6, 
+       dpi = 300, 
+       bg = "white")
