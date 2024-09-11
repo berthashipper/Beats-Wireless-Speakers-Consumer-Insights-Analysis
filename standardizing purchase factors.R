@@ -91,13 +91,11 @@ purchase_factors_ranked <- ggplot(purchase_summary, aes(x = factor, y = proporti
         legend.title = element_text(face = "bold"),
         legend.text = element_text(size = 10),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),  # Rotate x-axis labels
-        plot.margin = margin(10, 10, 10, 30))  # Increase bottom margin to space out labels
-
-# Display the plot
-print(purchase_factors_ranked)
+        plot.margin = margin(10, 10, 10, 10))  # Increase bottom margin to space out labels
+purchase_factors_ranked
 
 # Save the plot
-ggsave("purchase_ranked_plot.png", 
+ggsave("purchase_factors_ranked.png", 
        plot = purchase_factors_ranked, 
        width = 8, 
        height = 6, 
