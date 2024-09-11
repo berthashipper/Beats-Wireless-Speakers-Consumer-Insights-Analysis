@@ -32,47 +32,74 @@ data_clean <- data_clean %>%
 # Check the updated structure
 str(data_clean)
 
+#####################
 
-# Prepare the purchase factors data
-purchase_factors <- data_clean %>%
-  select(purchase_recommendation, purchase_reviews, purchase_expert, 
-         purchase_brand, purchase_price, purchase_features, purchase_advertising)
+# Prepare the data in long format
+purchase_factors_long <- clean_purchase_factors %>%
+  pivot_longer(cols = everything(), 
+               names_to = "factor", 
+               values_to = "importance") %>%
+  mutate(factor = recode(factor,
+                         "purchase_recommendation" = "Recommendations",
+                         "purchase_reviews" = "Customer Reviews",
+                         "purchase_expert" = "Expert Reviews",
+                         "purchase_brand" = "Brand",
+                         "purchase_price" = "Price",
+                         "purchase_features" = "Features",
+                         "purchase_advertising" = "Advertising"))
 
-# Melt the data for easier plotting
-purchase_factors_melted <- melt(purchase_factors)
+# Summarize data for plotting
+purchase_summary <- purchase_factors_long %>%
+  group_by(factor, importance) %>%
+  summarise(count = n()) %>%
+  mutate(proportion = count / sum(count)) %>%
+  ungroup()
 
-# Calculate medians and order factors from highest to lowest
-medians <- purchase_factors_melted %>%
-  group_by(variable) %>%
-  summarize(median_value = median(value, na.rm = TRUE))
+# Calculate total proportion of high importance levels (e.g., importance 5)
+high_importance_order <- purchase_summary %>%
+  filter(importance == 5) %>%
+  group_by(factor) %>%
+  summarise(high_importance_sum = sum(proportion)) %>%
+  arrange(desc(high_importance_sum)) %>%
+  pull(factor)
 
-# Order purchase factors by median from highest to lowest
-purchase_factors_melted$variable <- factor(purchase_factors_melted$variable, 
-                                           levels = medians$variable[order(-medians$median_value)])
+# Order the factors based on the calculated order
+purchase_summary$factor <- factor(purchase_summary$factor, levels = high_importance_order)
 
-# Create boxplots for each purchase factor
-purchase_factors_plot <- ggplot(purchase_factors_melted, aes(x = variable, y = value)) +
-  geom_boxplot() +
+# Create the stacked bar chart
+purchase_factors_ranked <- ggplot(purchase_summary, aes(x = factor, y = proportion, fill = factor(importance))) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = scales::percent(proportion, accuracy = 1)), 
+            position = position_stack(vjust = 0.5), 
+            color = "black", 
+            size = 3, 
+            fontface = "bold", 
+            check_overlap = TRUE) +  # Avoid overlapping text
+  scale_y_continuous(labels = scales::percent_format()) +  # Show percentages on y-axis
+  scale_fill_brewer(palette = "RdYlGn", direction = 1, name = "Importance Level", 
+                    breaks = as.character(1:5),
+                    labels = c("1 (Low Impact)", "2", "3", "4", "5 (High Impact)")) +  # Custom legend labels
+  labs(title = "Ranked Importance of Factors that Influence Purchase",
+       x = "Purchase Factor",
+       y = "Proportion of Respondents",
+       fill = "Importance Level") +
   theme_minimal() +
-  labs(title = "Distribution of Purchase Factors", 
-       x = "Purchase Factor", 
-       y = "Importance Rating") +
-  scale_x_discrete(labels = c(
-    "purchase_recommendation" = "Peer Recommendations",
-    "purchase_reviews" = "Customer Reviews",
-    "purchase_expert" = "Expert Reviews",
-    "purchase_brand" = "Brand",
-    "purchase_price" = "Price",
-    "purchase_features" = "Features",
-    "purchase_advertising" = "Advertising"
-  )) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Adjust text angle for better visibility
+  theme(axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"),
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        legend.position = "right",
+        legend.title = element_text(face = "bold"),
+        legend.text = element_text(size = 10),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),  # Rotate x-axis labels
+        plot.margin = margin(10, 10, 10, 30))  # Increase bottom margin to space out labels
 
+# Display the plot
+print(purchase_factors_ranked)
 
 # Save the plot
-ggsave("purchase_factors_plot.png", 
-       plot = purchase_factors_plot, 
-       width = 6, 
-       height = 8, 
+ggsave("purchase_ranked_plot.png", 
+       plot = purchase_factors_ranked, 
+       width = 8, 
+       height = 6, 
        dpi = 300, 
        bg = "white")
