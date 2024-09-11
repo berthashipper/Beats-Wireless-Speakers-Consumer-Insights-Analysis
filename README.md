@@ -26,7 +26,7 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 - Transformed the importance ratings of various speaker features into a long format for analysis.
 - Summarized the data to calculate the proportion of each importance level for every feature.
 - Ordered the features based on the total proportion of high importance levels (importance ratings of 5 and 6) to identify which features are most valued by respondents.
-- Created a stacked bar chart to visualize the distribution of importance levels across different features, highlighting the proportion of respondents who rated each feature as highly important ([`importance_ranked_plot.png`](importance_ranked_plot.png)).
+- Created a stacked bar chart to visualize the distribution of importance levels across different features, highlighting the proportion of respondents who rated each feature as highly important ([`importance_ranked.png`](importance_ranked.png)).
 
 ### Satisfaction by Age Group
 - Summarized satisfaction ratings across age groups and calculated proportional data.
