@@ -9,6 +9,9 @@ install.packages("caret")
 install.packages(c("tidyverse", "tidytext", "textdata"))
 install.packages("syuzhet")
 install.packages("ggtext")
+install.packages("corrplot")
+install.packages("ggsignif")
+install.packages("Hmisc")
 
 
 library(ggplot2)
@@ -31,5 +34,8 @@ library(wordcloud)
 library(RColorBrewer)
 library(ggtext)
 library(scales)
+library(corrplot)
+library(ggsignif)
+library(Hmisc)
 
 gs4_auth()
