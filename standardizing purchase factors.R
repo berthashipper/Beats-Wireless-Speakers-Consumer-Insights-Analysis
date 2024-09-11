@@ -32,7 +32,7 @@ data_clean <- data_clean %>%
 # Check the updated structure
 str(data_clean)
 
-#####################
+#################################
 
 # Prepare the data in long format
 purchase_factors_long <- clean_purchase_factors %>%
