@@ -10,7 +10,7 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 
 # Detailed Analysis:
 
-### [`Age Distribution Analysis`](distribution visualizations.R)
+### Age Distribution Analysis
 - Defined the correct order for age ranges and converted the `age` column into an ordered factor to maintain a logical sequence for plotting.
 - Removed rows with missing values in the `age` column to ensure accuracy in the visual representation.
 - Calculated counts and percentages for each age group, highlighting the distribution of customers by age.
