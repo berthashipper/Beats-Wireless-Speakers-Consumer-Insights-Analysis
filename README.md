@@ -93,18 +93,9 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 - Created a stacked bar chart to visualize the proportion of respondents rating each factor at different levels of importance. Added percentage labels to each bar for clarity and customized the color palette and legend for better readability ([`purchase_factors_ranked.png`](purchase_factors_ranked.png)).
 
 
-## Key Highlights
-- **Ordered Factors:** Consistently used ordered factors to maintain logical sequences, improving the accuracy and interpretability of visualizations.
-- **Proportional Analysis:** Applied proportional calculations in various contexts to provide a more nuanced view of the data.
-- **Custom Visual Enhancements:** Enhanced readability through rotated labels, customized margins, and appropriately adjusted text positions, ensuring that all plots effectively communicate the data insights.
-
-
 # Installation
 - Clone the repository
   - git clone [https://github.com/berthashipper/Beats-Wireless-Speakers-Consumer-Insights-Analysis.git](https://github.com/berthashipper/Beats-Wireless-Speakers-Consumer-Insights-Analysis.git)
-
-- Navigate to the project directory
-  - cd speaker-analysis
-
+  
 - Install required R packages
   - see setup.R
