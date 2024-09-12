@@ -37,7 +37,7 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 ### Top Speaker Brands Analysis
 - Separated list answers with multiple brands into individual rows, counted occurrences, and arranged them in descending order to identify the most popular brands among customers.
 - Focused on the top 5 most frequently mentioned brands, calculating and displaying their respective percentages.
-- Produced a horizontal bar plot of the top 5 brands, enhancing readability with flipped coordinates and clear percentage labels to showcase the most preferred brands ![Top 5 Most Frequently Mentioned Speaker Brands](top_brands_plot.png).
+- Produced a horizontal bar plot of the top 5 brands, enhancing readability with flipped coordinates and clear percentage labels to showcase the most preferred brands ([`top_brands_plot.png`](top_brands_plot.png).
 
 
 ### Feature Importance Analysis
