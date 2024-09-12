@@ -98,4 +98,4 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
   - git clone [https://github.com/berthashipper/Beats-Wireless-Speakers-Consumer-Insights-Analysis.git](https://github.com/berthashipper/Beats-Wireless-Speakers-Consumer-Insights-Analysis.git)
   
 - Install required R packages
-  - see setup.R
+  - see [`setup.R`](setup.R)
