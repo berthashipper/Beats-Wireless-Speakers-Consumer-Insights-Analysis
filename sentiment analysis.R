@@ -228,7 +228,7 @@ improvement_keyword_themes <- ggplot(categorized_word_counts_clean, aes(x = reor
   geom_bar(stat = "identity") +
   geom_text(aes(label = percentage_label), hjust = -0.1, size = 3.5) +  # Add percentage labels to the right of bars
   coord_flip() +  # Flip coordinates for better readability
-  labs(title = "Distribution of Keywords by Category for Improvement",
+  labs(title = "Distribution of Keywords Found in Feedback",
        x = "Feedback Category",
        y = "Total Count",
        fill = NULL) +
