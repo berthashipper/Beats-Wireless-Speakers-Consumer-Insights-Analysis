@@ -39,33 +39,58 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 - Focused on the top 5 most frequently mentioned brands, calculating and displaying their respective percentages.
 - Produced a horizontal bar plot of the top 5 brands, enhancing readability with flipped coordinates and clear percentage labels to showcase the most preferred brands ([`top_brands_plot.png`](top_brands_plot.png)).
 
-
 ### Feature Importance Analysis
-- Transformed the importance ratings of various speaker features into a long format for analysis.
-- Summarized the data to calculate the proportion of each importance level for every feature.
-- Ordered the features based on the total proportion of high importance levels (importance ratings of 5 and 6) to identify which features are most valued by respondents.
-- Created a stacked bar chart to visualize the distribution of importance levels across different features, highlighting the proportion of respondents who rated each feature as highly important ([`importance_ranked.png`](importance_ranked.png)).
+- Prepared the data in long format by selecting key features related to speaker importance, including sound quality, battery life, design, connectivity, durability, and price. Recoded the variable names to more descriptive labels, making the analysis more accessible and understandable.
+- Grouped the data by feature (`quality`) and importance level (`importance`), summarizing the counts and calculating proportions to visualize how respondents rated the importance of each feature.
+- Ranked the features based on the total proportion of high importance ratings (levels 5 and 6). This ordering allowed for an intuitive presentation where the most critical features (as perceived by users), were prominently displayed.
+- Created a stacked bar chart that illustrates the distribution of importance levels for each feature. The plot employs a green color palette to visually differentiate the importance levels, with percentage labels directly on the bars to communicate the data effectively. Carefully positioned text labels to avoid overlap, enhancing readability and portraying the proportion of respondents who rated each feature as highly important ([`importance_ranked_plot.png`](importance_ranked_plot.png)).
 
 ### Customer Segmentation
-- Prepared data by selecting relevant columns, converting categorical variables to numeric, and scaling the data.
-- Used the Elbow Method to determine optimal clustering and performed k-means clustering to segment customers into the top aspects they valued.
-- Analyzed and visualized customer segments based on how they ranked sound and battery importance ([`customer_segmentation_by_values_plot.png`](customer_segmentation_by_values_plot.png)).
+- Selected relevant variables for segmentation, including age, income, usage frequency, and importance ratings for sound, battery, and design. Converted categorical variables (age, income, usage frequency) into numeric factors, allowing for standardized scaling and meaningful cluster analysis.
+- Scaled the selected data to standardize the ranges, ensuring that each feature contributes equally to the clustering process.
+- Applied the Elbow Method to determine the optimal number of clusters, evaluating the total within-cluster sum of squares for cluster counts from 1 to 10. This approach helped identify the point of diminishing returns, guiding the choice of three clusters for final segmentation.
+- Performed K-means clustering with three clusters, using a seed for reproducibility. Added cluster assignments to the original data and analyzed the clusters by computing the mean importance ratings for sound, battery, and design within each cluster. This analysis provided insights into the characteristics of each segment.
+- Created a scatter plot to visualize the clusters based on the importance of sound and battery. Applied jitter to the points to make trends visible, highlighting how respondents within each cluster prioritize different features. Enhanced the plot with a minimal theme and customized axis labels to improve clarity.
+- Assigned meaningful names to the clusters based on their dominant characteristics: "SOUND QUALITY," "PERFORMANCE," and "LOOKS." These names reflect the primary importance ratings within each cluster, providing a clear narrative about customer priorities ([`customer_segmentation_by_values_plot.png`](customer_segmentation_by_values_plot.png)).
 
-### Feedback Sentiment Analysis
-- Processed and tokenized customer feedback on sound quality, applying the Bing lexicon to score sentiments.
-- Visualized sentiment distribution with a histogram ([`feedback_sentiment_distribution.png`](feedback_sentiment_distribution.png)).
+### Sentiment Analysis of Feedback
+- Efficiently converted the list column containing feedback into a character vector using `mutate` and `map_chr`, facilitating easier text processing.
+- Utilized `unnest_tokens` to break down feedback into individual words and applied `anti_join` with stopwords, ensuring a cleaner dataset for sentiment analysis.
+- Merged feedback words with the Bing sentiment lexicon and calculated sentiment scores by subtracting negative counts from positive counts, providing a straightforward metric for sentiment evaluation.
+- Calculated average sentiment and standard deviation, offering insights into the overall sentiment and variability of customer feedback about sound quality.
+- Synthesized into a detailed histogram with percentage labels to visualize the spread of sentiment scores, aiding in understanding the range and concentration of customer sentiments ([`feedback_sentiment_distribution.png`](feedback_sentiment_distribution.png)).
 
 ### Spending Analysis
-- Converted spending data into ordered factors and visualized frequency distributions ([`amount_spent_distribution.png`](amount_spent_distribution.png)).
-- Plotted sentiment scores against spending categories to explore spending influence on feedback.
+- Converted spending data into ordered factors to maintain logical progression, enhancing interpretability in subsequent analyses.
+- Computed counts and proportions of each spending level, making the data easily comparable.
+- Developed a bar plot with percentage labels directly on the bars, providing a clear representation of how much customers spend on their speakers, with intuitive category labels ([`amount_spent_distribution.png`](amount_spent_distribution.png)).
 
-### Improvement Suggestions Keyword Analysis
-- Cleaned and tokenized improvement suggestion data, categorizing keywords for analysis.
-- Visualized keyword distribution across improvement categories ([`improvement_keyword_themes.png`](improvement_keyword_themes.png)) and created a word cloud to highlight frequent terms related to sound quality ([`improvements_wordcloud.png`](improvements_wordcloud.png)).
+### Average Sentiment by Spending Category
+- Combined feedback and sentiment scores with spending data, leveraging `left_join` to enrich the dataset and enable a detailed comparison.
+- Grouped the data by spending categories and calculated average sentiment scores, revealing patterns between customer spending and their feedback sentiment.
+- Maintained consistency in categorical ordering, ensuring the plot accurately reflects the logical progression of spending levels.
+- Created a bar plot illustrating average sentiment scores across different spending categories, with x-axis labels adjusted for clarity ([`sentiment_vs_spending_plot.png`](sentiment_vs_spending_plot.png)).
 
-### Purchase Factors Analysis
-- Standardized ratings across various purchase factors for consistency.
-- Created boxplots to showcase the distribution of ratings for different purchase factors ([`purchase_factors_ranked.png`](purchase_factors_ranked.png)).
+### Analysis of Improvement Feedback Keywords
+- Applied comprehensive cleaning steps including lowercase conversion, punctuation removal, and whitespace trimming, resulting in a tidy dataset ready for keyword analysis.
+- Used `unnest_tokens` to tokenize feedback and filtered out common stopwords, focusing the analysis on meaningful terms.
+- Developed a detailed keyword categorization system that linked common feedback terms to predefined categories, allowing for a structured analysis of feedback themes.
+- Aggregated keyword counts by category and visualized the distribution using a horizontal bar plot with percentage labels, clearly communicating the key areas for speaker improvement based on customer feedback ([`improvement_keyword_themes.png`](improvement_keyword_themes.png)).
+
+### Word Cloud for Sound Quality Feedback
+- Specifically targeted keywords related to sound quality, ensuring that the word cloud emphasizes the most relevant feedback in this category.
+- Adjusted word cloud parameters such as word scaling, frequency thresholds, and rotation to enhance readability and aesthetic appeal, making it an engaging and informative visual representation of customer feedback ([`improvements_wordcloud.png`](improvements_wordcloud.png)).
+
+### Standardization of Advertising Ratings
+-Developed a custom function `standardize_ratings` to standardize advertising ratings by converting textual ratings into numeric values. This ensures consistency across the dataset.
+- Applied the `standardize_ratings` function to multiple columns related to purchase factors, effectively cleaning and standardizing the data for accurate analysis.
+- Used `str(data_clean)` to verify the updated structure of the dataset, ensuring that all ratings were correctly transformed.
+
+### Analysis of Motivating Purchase Factors
+- Converted data into a long format using `pivot_longer`, facilitating the analysis of various purchase factors by consolidating them into a single column.
+- Summarized the data by calculating counts and proportions for each level of importance, which allowed for a clear comparison of factors influencing purchases.
+- Identified and ordered factors based on the total proportion of high importance ratings, ensuring that the most critical factors were prominently featured in the analysis.
+- Created a stacked bar chart to visualize the proportion of respondents rating each factor at different levels of importance. Added percentage labels to each bar for clarity and customized the color palette and legend for better readability ([`purchase_factors_ranked.png`](purchase_factors_ranked.png)).
 
 
 ## Key Highlights
