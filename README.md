@@ -55,7 +55,7 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 
 ### Purchase Factors Analysis
 - Standardized ratings across various purchase factors for consistency.
-- Created boxplots to showcase the distribution of ratings for different purchase factors ([`purchase_factors_plot.png`](purchase_factors_plot.png)).
+- Created boxplots to showcase the distribution of ratings for different purchase factors ([`purchase_factors_ranked.png`](purchase_factors_ranked.png)).
 
 
 # Installation
