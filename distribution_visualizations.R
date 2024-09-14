@@ -226,3 +226,46 @@ ggsave("top_brands_plot.png",
        height = 6, 
        dpi = 300, 
        bg = "white")
+
+#################################
+
+# Summarize satisfaction levels
+satisfaction_summary <- data_clean %>%
+  group_by(satisfaction) %>%
+  summarise(count = n()) %>%
+  mutate(proportion = count / sum(count))  # Calculate proportions for labels
+
+# Custom labels for satisfaction levels
+satisfaction_labels <- c("1" = "Very Unhappy", 
+                         "2" = "Unhappy", 
+                         "3" = "Neutral", 
+                         "4" = "Happy", 
+                         "5" = "Very Happy")
+
+# Create the bar chart
+satisfaction_plot <- ggplot(satisfaction_summary, aes(x = factor(satisfaction), y = proportion, fill = factor(satisfaction))) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = scales::percent(proportion, accuracy = 1)), 
+            vjust = -0.5, 
+            size = 4, 
+            fontface = "bold") +  # Display percentages above bars
+  scale_y_continuous(labels = scales::percent_format()) +  # Show percentages on y-axis
+  scale_x_discrete(labels = c("1", "2", "3", "4", "5")) +  # Keep x-axis as numeric values
+  scale_fill_brewer(palette = "Blues", direction = 1, labels = satisfaction_labels) +  # Custom legend labels
+  labs(title = "Overall Satisfaction Distribution",
+       x = "Satisfaction Level (1-5)",
+       y = "Proportion of Respondents",
+       fill = "Satisfaction") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"))
+satisfaction_plot
+
+# Save the plot
+ggsave("overall_satisfaction.png", 
+       plot = satisfaction_plot, 
+       width = 8, 
+       height = 6, 
+       dpi = 300, 
+       bg = "white")
