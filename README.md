@@ -39,6 +39,11 @@ This project focuses on analyzing customer feedback on wireless speakers to unco
 - Focused on the top 5 most frequently mentioned brands, calculating and displaying their respective percentages.
 - Produced a horizontal bar plot of the top 5 brands, enhancing readability with flipped coordinates and clear percentage labels to showcase the most preferred brands ([`top_brands_plot.png`](top_brands_plot.png)).
 
+### Satisfaction Levels Analysis
+- Summarized the satisfaction levels by grouping the data based on the `satisfaction` column and calculating the count and proportion for each level.
+- Used custom labels to define satisfaction levels, where `1` represents "Very Unhappy" and `5` represents "Very Happy."
+- Created a bar plot to visualize the distribution of satisfaction levels, maintaining the x-axis as 1-5 for clarity. Added percentage labels directly on the bars to indicate the proportion of respondents for each level ([`overall_satisfaction.png`](overall_satisfaction.png)).
+
 ### Feature Importance Analysis
 - Prepared the data in long format by selecting key features related to speaker importance, including sound quality, battery life, design, connectivity, durability, and price. Recoded the variable names to more descriptive labels, making the analysis more accessible and understandable.
 - Grouped the data by feature (`quality`) and importance level (`importance`), summarizing the counts and calculating proportions to visualize how respondents rated the importance of each feature.
