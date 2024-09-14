@@ -86,3 +86,134 @@ ggsave("customer_segmentation_by_values_plot.png",
        height = 6, 
        dpi = 300, 
        bg = "white")
+
+#################################
+
+# Remove NA values from the dataset
+clean_data <- data_clean %>%
+  filter(!is.na(age) & !is.na(income) & !is.na(cluster))  # Adjust to include other relevant factors if needed
+
+data_clean <- data_clean %>%
+  mutate(cluster = factor(cluster))  # Ensure cluster is a factor for analysis
+
+# Summary statistics by cluster for demographic variables
+demographic_summary <- data_clean %>%
+  group_by(cluster) %>%
+  summarise(
+    age_mean = mean(as.numeric(age), na.rm = TRUE),
+    income_mean = mean(as.numeric(income_numeric), na.rm = TRUE),
+    age_sd = sd(as.numeric(age), na.rm = TRUE),
+    income_sd = sd(as.numeric(income_numeric), na.rm = TRUE),
+    count = n()
+  )
+print(demographic_summary)
+
+# Calculate percentages for income distribution
+income_percentage <- clean_data %>%
+  group_by(cluster, income) %>%
+  summarise(count = n()) %>%
+  group_by(cluster) %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Define custom x-axis labels
+custom_labels <- c("<$25K", "$25K-$50K", "$50K-$75K", "$75K-$100K", ">$100K")
+
+# Visualize income distribution by cluster
+income_clusters <- ggplot(income_percentage, aes(x = income, y = percentage, fill = cluster)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5) +  # Adjust text position as needed
+  scale_x_discrete(labels = custom_labels) +  # Apply custom labels
+  labs(title = "Income Distribution by Cluster",
+       x = "Income Range",
+       y = "Percentage",
+       fill = "Cluster") +
+  theme_minimal()
+income_clusters
+
+# Calculate percentages for age distribution
+age_percentage <- clean_data %>%
+  group_by(cluster, age) %>%
+  summarise(count = n()) %>%
+  group_by(cluster) %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Visualize age distribution by cluster
+age_clusters <- ggplot(age_percentage, aes(x = age, y = percentage, fill = cluster)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5) +  # Adjust text position as needed
+  labs(title = "Age Distribution by Cluster",
+       x = "Age Range",
+       y = "Percentage",
+       fill = "Cluster") +
+  theme_minimal()
+age_clusters
+
+# Calculate percentages for usage frequency distribution
+usage_freq_percentage <- clean_data %>%
+  group_by(cluster, usage_freq) %>%
+  summarise(count = n()) %>%
+  group_by(cluster) %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Visualize usage frequency distribution by cluster
+usage_freq_clusters <- ggplot(usage_freq_percentage, aes(x = usage_freq, y = percentage, fill = cluster)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5) +  # Adjust text position as needed
+  labs(title = "Usage Frequency Distribution by Cluster",
+       x = "Usage Frequency",
+       y = "Percentage",
+       fill = "Cluster") +
+  scale_x_discrete(labels = c("Daily" = "Daily", 
+                              "Several times a week" = "Several times a week", 
+                              "Once a week" = "Once a week", 
+                              "1-3 times a month" = "1-3 times a month", 
+                              "Rarely (fewer than once a month)" = "Les than once a month")) +  # Rename x-axis labels
+  theme_minimal() +
+  theme(axis.text.x = element_text(margin = margin(t = 10)))  # Increase margin at the top of x-axis labels
+usage_freq_clusters
+
+# Visualize importance ratings for sound, battery, and design by cluster
+
+# Plot importance ratings
+sound_importance_clusters <- ggplot(clean_data, aes(x = factor(cluster), y = importance_sound, fill = factor(cluster))) +
+  geom_boxplot(outlier.shape = NA) +  # Remove default outliers to better see jitter
+  geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) +  # Add jitter with transparency and size adjustment
+  labs(title = "Importance of Sound by Cluster",
+       x = "Cluster",
+       y = "Importance Rating",
+       fill = "Cluster") +
+  theme_minimal()
+sound_importance_clusters
+
+battery_importance_clusters <- ggplot(clean_data, aes(x = factor(cluster), y = importance_battery, fill = factor(cluster))) +
+  geom_boxplot(outlier.shape = NA) +  # Remove default outliers to better see jitter
+  geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) +  # Add jitter with transparency and size adjustment
+  labs(title = "Importance of Battery by Cluster",
+       x = "Cluster",
+       y = "Importance Rating",
+       fill = "Cluster") +
+  theme_minimal()
+battery_importance_clusters
+
+design_importance_clusters <- ggplot(clean_data, aes(x = factor(cluster), y = importance_design, fill = factor(cluster))) +
+  geom_boxplot(outlier.shape = NA) +  # Remove default outliers to better see jitter
+  geom_jitter(width = 0.2, alpha = 0.5, size = 1.5) +  # Add jitter with transparency and size adjustment
+  labs(title = "Importance of Design by Cluster",
+       x = "Cluster",
+       y = "Importance Rating",
+       fill = "Cluster") +
+  theme_minimal()
+design_importance_clusters
+
+ggsave("income_distribution_by_cluster.png", plot = income_clusters, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("age_distribution_by_cluster.png", plot = age_clusters, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("usage_frequency_distribution_by_cluster.png", plot = usage_freq_clusters, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("importance_of_sound_by_cluster.png", plot = sound_importance_clusters, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("importance_of_battery_by_cluster.png", plot = battery_importance_clusters, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("importance_of_design_by_cluster.png", plot = design_importance_clusters, width = 8, height = 6, dpi = 300, bg = "white")
