@@ -107,6 +107,7 @@ amount_spent_distribution <- ggplot(amount_spent_freq, aes(x = amount_spent, y =
         axis.title.y = element_text(face = "bold"),
         plot.title = element_text(face = "bold", hjust = 0.5),
         plot.caption = element_blank())  # Remove plot caption
+
 amount_spent_distribution
 
 # Save the plot
@@ -127,12 +128,12 @@ data_clean <- data_clean %>%
 
 # Recreate the feedback_df
 feedback_df <- data_clean %>%
-  select(id, sound_quality_feedback) %>%
+  dplyr::select(id, sound_quality_feedback) %>%
   mutate(id = row_number())
 
 # Merge sentiment scores with amount spent
 feedback_with_amount <- feedback_df %>%
-  left_join(data_clean %>% select(id, amount_spent), by = "id") %>%
+  left_join(data_clean %>% dplyr::select(id, amount_spent), by = "id") %>%
   left_join(sentiment_scores, by = "id")
 
 # Calculate average sentiment score for each amount spent category
@@ -157,6 +158,7 @@ sentiment_vs_spending_plot <- ggplot(average_sentiment_by_amount, aes(x = amount
         axis.title.x = element_text(face = "bold"),
         axis.title.y = element_text(face = "bold"),
         plot.title = element_text(face = "bold", hjust = 0.5))
+
 sentiment_vs_spending_plot
 
 #################################
@@ -267,3 +269,28 @@ wordcloud(words = sound_quality_words$word, freq = sound_quality_words$n,
           random.order = FALSE, 
           rot.per = 0.4)      # Adjust rotation percentage
 dev.off()  # Close the graphics device
+
+#################################
+
+# Perform sentiment analysis on the feedback data
+feedback_sentiments <- get_sentiment(data_clean$sound_quality_feedback, method = "syuzhet")
+
+# Combine feedback with sentiment scores
+feedback_with_sentiment <- data_clean %>%
+  dplyr::select(sound_quality_feedback) %>%
+  mutate(sentiment = feedback_sentiments)
+
+# View the top 5 feedback entries with the highest sentiment scores
+top_feedbacks <- feedback_with_sentiment %>%
+  arrange(desc(sentiment)) %>%
+  slice_head(n = 5)
+
+# Print the top feedbacks
+print(top_feedbacks)
+
+# View the top 5 feedback entries with the highest sentiment scores
+bottom_feedbacks <- feedback_with_sentiment %>%
+  arrange(sentiment) %>%
+  slice_head(n = 20)
+
+print(bottom_feedbacks)
