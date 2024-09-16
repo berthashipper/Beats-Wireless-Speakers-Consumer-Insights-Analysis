@@ -1,3 +1,8 @@
+# Filter out rows with NA/NaN/Inf values in relevant columns
+data_clean <- data_clean %>%
+  filter(!is.na(age), !is.na(income), !is.na(importance_sound), !is.na(importance_battery), !is.na(importance_design))
+
+
 # Select relevant columns for segmentation
 data_segment <- data_clean %>%
   dplyr::select(age, income, usage_freq, importance_sound, importance_battery, importance_design)
@@ -59,15 +64,15 @@ data_clean$cluster_name <- case_when(
 
 # Create the plot with jitter to make trends visible
 customer_segment_plot <- ggplot(data_clean, aes(x = importance_sound, y = importance_battery, color = cluster_name)) +
-  geom_point(alpha = 0.6, size = 4, position = position_jitter(width = 0.6, height = 0.6)) +  # Increased jitter
+  geom_point(alpha = 0.7, size = 4, position = position_jitter(width = 0.6, height = 0.6)) +  # Increased jitter
   theme_minimal() +
   labs(title = "Customer Segmentation using K-means Clustering",
        x = "Ranked Importance of Sound",
        y = "Ranked Importance of Battery",
        color = "Customer Segment") +
-  scale_color_manual(values = c("SOUND QUALITY" = "red", 
-                                "PERFORMANCE" = "green", 
-                                "LOOKS" = "blue")) +
+  scale_color_manual(values = c("SOUND QUALITY" = "#E87D72", 
+                                "PERFORMANCE" = "#53B74C", 
+                                "LOOKS" = "#6E9AF8")) +
   scale_x_continuous(breaks = seq(1, 6, 1), 
                      labels = c("1 (Low)", "2", "3", "4", "5", "6 (High)")) +
   scale_y_continuous(breaks = seq(1, 6, 1), 
@@ -76,7 +81,6 @@ customer_segment_plot <- ggplot(data_clean, aes(x = importance_sound, y = import
         plot.title = element_text(face = "bold", hjust = 0.5),
         axis.text = element_text(size = 12),
         axis.title = element_text(size = 14, face = "bold"))
-
 customer_segment_plot
 
 # Save the plot
@@ -87,7 +91,8 @@ ggsave("customer_segmentation_by_values_plot.png",
        dpi = 300, 
        bg = "white")
 
-#################################
+
+
 
 # Remove NA values from the dataset
 clean_data <- data_clean %>%
