@@ -91,8 +91,7 @@ ggsave("customer_segmentation_by_values_plot.png",
        dpi = 300, 
        bg = "white")
 
-
-
+#################################
 
 # Remove NA values from the dataset
 clean_data <- data_clean %>%
