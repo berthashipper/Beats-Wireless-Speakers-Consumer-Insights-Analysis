@@ -2,7 +2,7 @@
 
 This project focuses on analyzing customer feedback on wireless speakers to uncover usage patterns, preferences, and areas for product improvement. By leveraging data cleaning, exploratory data analysis (EDA), and advanced visualization techniques, the project provides actionable insights to enhance speaker features and customer satisfaction. Key analytical methods include clustering for customer segmentation, sentiment analysis to decode feedback, and comprehensive visualizations to highlight trends.
 
-[`Link to final project slideshow`](https://docs.google.com/presentation/d/1ZILRGwL_6ZAjmUj4ldj11PehjKt2jLBOOXXOEABlnZ4/edit?usp=sharing)
+[`Link to final project slideshow`](Bertha Shipper - Understanding and Interpreting Consumer Preferences for Wireless Speakers - Presentation.pdf)
 
 
 
